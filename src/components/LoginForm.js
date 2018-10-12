@@ -1,35 +1,19 @@
 import React, { Component } from 'react';
 import { TextInput, Alert } from 'react-native';
+import { connect } from 'react-redux';
 import firebase from 'firebase';
 
+import { emailChanged, passwordChanged, loginUser } from '../actions';
 import { Button, Card, CardSection, Spinner } from '../ortak';
 
  class LoginForm extends Component {
    state ={ email: '', password: '', loading: false };
+
    clickLogin() {
      //console.log(' email ' + this.state.email);
      //console.log(' password ' + this.state.password);
-     this.setState({ loading: true });
-     const { email, password } = this.state;
-
-     if (email === '' || password === '') {
-       this.setState({ loading: false });
-       Alert.alert(
-         'Mesaj', // Başlık kısmı
-         'Her iki alanda dolu olmalı!', //İçerik
-         [
-           { text: 'Tamam', onPress: () => null } //Buton için
-         ]
-       );
-     } else {
-         firebase.auth().signInWithEmailAndPassword(email, password)
-         .then(this.loginSucces.bind(this))
-         .catch(() => {
-           firebase.auth().createUserWithEmailAndPassword(email, password)
-           .then(this.loginSucces.bind(this))
-           .catch(this.loginFail.bind(this));
-         });
-       }
+     const { email, password } = this.props;
+     this.props.loginUser({ email, password });
      }
 
    loginSucces() {
@@ -49,12 +33,14 @@ import { Button, Card, CardSection, Spinner } from '../ortak';
      );
    }
    renderButton() {
-     if (!this.state.loading) {
+     if (!this.props.loading) {
        return <Button onPress={this.clickLogin.bind(this)}> GİRİŞ </Button>;
      }
      return <Spinner size="small" />;
    }
    render() {
+     console.log('response email ' + this.props.email);
+     console.log('response password ' + this.props.password);
      const { inputStyle } = styles;
      return (
        <Card>
@@ -62,8 +48,8 @@ import { Button, Card, CardSection, Spinner } from '../ortak';
           <TextInput
           placeholder="e-mail"
           style={inputStyle}
-          value={this.state.email}
-          onChangeText={email => this.setState({ email })}
+          value={this.props.email}
+          onChangeText={email => this.props.emailChanged(email)}
           />
          </CardSection>
          <CardSection>
@@ -71,8 +57,8 @@ import { Button, Card, CardSection, Spinner } from '../ortak';
            secureTextEntry
            placeholder="password"
            style={inputStyle}
-           value={this.state.password}
-           onChangeText={password => this.setState({ password })}
+           value={this.props.password}
+           onChangeText={password => this.props.passwordChanged(password)}
            />
          </CardSection>
          <CardSection>
@@ -91,5 +77,15 @@ inputStyle: {
 },
 
 }
+const mapStateToProps = ({ kimlikdogrulamaResponse }) => {
+  const { email, password, loading } = kimlikdogrulamaResponse;
+  return {
+    email,
+    password,
+    loading
+  };
+};
 
-export default LoginForm;
+
+
+export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUser })(LoginForm);
