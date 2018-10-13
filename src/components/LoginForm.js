@@ -69,14 +69,14 @@ import { Button, Card, CardSection, Spinner } from '../ortak';
    }
  }
 const styles = {
-inputStyle: {
-  paddingRight: 5,
-  paddingLeft: 5,
-  fontSize: 18,
-  flex: 1
-},
+  inputStyle: {
+    paddingRight: 5,
+    paddingLeft: 5,
+    fontSize: 18,
+    flex: 1
+  }
+};
 
-}
 const mapStateToProps = ({ kimlikdogrulamaResponse }) => {
   const { email, password, loading } = kimlikdogrulamaResponse;
   return {
@@ -85,7 +85,5 @@ const mapStateToProps = ({ kimlikdogrulamaResponse }) => {
     loading
   };
 };
-
-
 
 export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUser })(LoginForm);
