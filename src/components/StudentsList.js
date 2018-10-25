@@ -13,7 +13,7 @@ class StudentsList extends Component {
 
   componentWillReceiveProps(nextProps) { //propertyler componente ulaştığı zaman
     this.createDataSource(nextProps);  //anlamına gelir.Boş data gelmemesi için
-                                       //bu method içiçnde kullandık.
+                                       //bu method içinde kullandık.
   }
   createDataSource({ studentsArray }) {
     const ds = new ListView.DataSource({

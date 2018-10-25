@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, Picker } from 'react-native';
 import { connect } from 'react-redux';
-import { Button, Card, CardSection, Spinner } from '../ortak';
 import { studentChange, studentCreate } from '../actions';
+import { Button, Card, CardSection, Spinner } from '../ortak';
+
 
 class StudentCreate extends Component {
   clickSave() {
@@ -21,6 +22,7 @@ class StudentCreate extends Component {
     return <Spinner size="small" />;
   }
   render() {
+    console.log('gelen data' + this.props.student);
     const { inputStyle } = styles;
     return (
       <Card>
