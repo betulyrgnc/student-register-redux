@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, TextInput, Picker } from 'react-native';
 import { connect } from 'react-redux';
-import { studentChange, studentUpdate } from '../actions';
+import { studentChange, studentUpdate, studentDelete } from '../actions';
 import { Button, Card, CardSection, Spinner } from '../ortak';
 
 
@@ -27,8 +27,8 @@ class StudentUpdate extends Component {
 
       this.props.studentUpdate({ isim, soyisim, ogrencinumara, sube, uid: this.props.student.uid });
   }
-  clickDelete(){
-
+  clickDelete() {
+    this.props.studentDelete({ uid: this.props.student.uid })
   }
   renderButton() {
     if (!this.props.loadingUpdate) {
@@ -109,9 +109,10 @@ const styles = {
 };
 
 const mapToStateProps = ({ studentUpdateResponse }) => {
-  const { loadingUpdate } = studentUpdateResponse;
+  const { loadingUpdate, loadingDelete } = studentUpdateResponse;
   return {
-    loadingUpdate };
+    loadingUpdate,
+    loadingDelete };
 };
 
-export default connect(mapToStateProps, { studentChange, studentUpdate })(StudentUpdate);
+export default connect(mapToStateProps, { studentChange, studentUpdate, studentDelete })(StudentUpdate);

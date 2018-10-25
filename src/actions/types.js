@@ -13,4 +13,7 @@ export const CREATE_REQUEST_SUCCES = 'create_request_succes';
 export const UPDATE_REQUEST = 'update_request';
 export const UPDATE_REQUEST_SUCCES = 'update_request_succes';
 
+export const DELETE_REQUEST = 'delete_request';
+export const DELETE_REQUEST_SUCCES = 'delete_request_succes';
+
 export const STUDENT_LIST_DATA_SUCCESS = 'student_list_data_success';

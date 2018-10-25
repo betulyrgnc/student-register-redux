@@ -6,7 +6,9 @@ import { STUDENT_CHANGED,
   CREATE_REQUEST,
 STUDENT_LIST_DATA_SUCCESS,
 UPDATE_REQUEST_SUCCES,
-UPDATE_REQUEST } from './types';
+UPDATE_REQUEST,
+DELETE_REQUEST_SUCCES,
+DELETE_REQUEST } from './types';
 
 
 export const studentChange = ({ props, value }) => {
@@ -41,6 +43,20 @@ export const studentUpdate = ({ isim, soyisim, ogrencinumara, sube, uid }) => {
     .set({ isim, soyisim, ogrencinumara, sube })
     .then(() => {
       dispatch({ type: UPDATE_REQUEST_SUCCES });
+      Actions.pop(); // pop methodu bir sayfa geri gitmek için kullanılır.
+    });
+  };
+};
+
+export const studentDelete = ({ uid }) => {
+  const { currentUser } = firebase.auth();
+
+  return (dispatch) => {
+    dispatch({ type: DELETE_REQUEST });
+    firebase.database().ref(`/kullanicilar/${currentUser.uid}/ogrenciler/${uid}`)
+    .remove()
+    .then(() => {
+      dispatch({ type: DELETE_REQUEST_SUCCES });
       Actions.pop(); // pop methodu bir sayfa geri gitmek için kullanılır.
     });
   };
